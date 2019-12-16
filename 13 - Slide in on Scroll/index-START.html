@@ -58,6 +58,31 @@
       };
     }
 
+    const sliderImages = document.querySelectorAll('.slide-in');
+
+    function checkSlide(e){
+      sliderImages.forEach(sliderImage => {
+        //half way through the image
+        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2;
+        //bottom of the image
+        //offsetTop tells you how far the top of the image is from the top of the window
+        //imageBottom tells us where the bottom of the image is on the page (offsetTop + image height)
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+        //make sure that slideInAt value is greater than what the top of the image is
+        const isHalfShown = slideInAt > sliderImage.offsetTop; 
+        const isNotScrolledPast = window.scrollY < imageBottom;
+        if(isHalfShown && isNotScrolledPast){
+          sliderImage.classList.add('active');
+        }else{
+          sliderImage.classList.remove('active');
+        }
+      });
+    }
+
+    //when you are doing something on scroll, you need to make sure to debounce your function; otherwise, it will run to many times and negtively affect your performance 
+
+    window.addEventListener('scroll', debounce(checkSlide));
+
   </script>
 
   <style>

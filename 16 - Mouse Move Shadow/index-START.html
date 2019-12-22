@@ -35,6 +35,41 @@
   </style>
 
 <script>
+  const hero = document.querySelector('.hero');
+  const text = hero.querySelector('h1');
+
+  //1. get width and height of the element we hovered over
+  function shadow(e){
+    const width = hero.offsetWidth;
+    const height = hero.offsetHeight;
+    // const {offsetWidth: width, offsetHeight: height} = hero; //same as above with destructuring
+    //find out how far should the shadow stretch
+    const walk = 100; //100px
+
+    //find out the position of the cursor 
+    let x = e.offsetX;
+    let y = e.offsetY;
+    //'this' is the thing you listened on ('.hero')
+    //e.target is the thing that triggered the event
+    if(this !== e.target){
+      x = x + e.target.offsetLeft;
+      y = y + e.target.offsetTope;
+    }
+
+    const xWalk = Math.round((x / width * walk) - (walk / 2));
+    const yWalk = Math.round((y / height * walk) - (walk / 2));
+
+    text.style.textShadow = `
+    ${xWalk}px ${yWalk}px 0 red,
+    ${xWalk * -1}px ${yWalk}px 0 rgb(69, 232, 10),
+    ${yWalk}px ${xWalk * -1}px 0 rgb(9, 92, 223),
+    ${yWalk * -1}px ${xWalk}px 0 rgb(146, 9, 223)
+    `;
+  }
+
+  //listen for the mousemove event on the 'hero' element
+  hero.addEventListener('mousemove', shadow);
+
 </script>
 </body>
 </html>

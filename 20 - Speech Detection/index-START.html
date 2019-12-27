@@ -10,8 +10,35 @@
   </div>
 
 <script>
+  //SpeechRecognition is a global variable that lives in the browser
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  //create a new instance of SpeechRecognition
+  const recognition = new SpeechRecognition();
+  recognition.interimResults = true; //set to record (display) what you are saying as you are speaking
+
+  //create a paragraph where the text is going to be displayed
+  let p = document.createElement('p');
+  const words = document.querySelector('.words');
+  words.appendChild(p);
+
+  recognition.addEventListener('result', e => {
+    //convert the result into an array
+    const transcript = Array.from(e.results)
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('') //join all the transcripts together into one string
+
+      p.textContent = transcript;
+      if(e.results[0].isFinal){
+        p = document.createElement('p');
+        words.appendChild(p);
+      }
+  });
+
+  recognition.addEventListener('end', recognition.start);
+
+  recognition.start();
 
 </script>
 

@@ -54,6 +54,22 @@
   </div>
 
 <script>
+  const nav = document.querySelector('#main');
+  const topOfNav = nav.offsetTop;
+
+  function fixNav(){
+    if(window.scrollY >= topOfNav){
+      //offset the body by the height of the nav bar when you scroll the page
+      document.body.style.paddingTop = nav.offsetHeight + 'px';
+      //add a class to the body element so that you could target all of the children if needed
+      document.body.classList.add('fixed-nav');
+    }else{
+      document.body.paddingTop = 0;
+      document.body.classList.remove('fixed-nav');
+    }
+  }
+
+  window.addEventListener('scroll', fixNav);
 
 </script>
 

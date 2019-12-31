@@ -5,7 +5,7 @@
   <title>Follow Along Nav</title>
 </head>
 <body>
-  <h2>Cool</h2>
+  <!-- <h2>Cool</h2> -->
   <nav class="top">
     <div class="dropdownBackground">
       <span class="arrow"></span>
@@ -220,6 +220,54 @@
 </style>
 
 <script>
+
+  //all of the direct descendants of the ul element with the class of 'cool'
+  const triggers = document.querySelectorAll('.cool > li'); 
+
+  //grab the div 'dropdownBackground' with the white background
+  const background = document.querySelector('.dropdownBackground');
+
+  //grab the nav with the class of 'top'
+  const nav = document.querySelector('.top');
+
+  //listen on hover in
+  function handleEnter() {
+    this.classList.add('trigger-enter');
+    setTimeout(() => {
+      if(this.classList.contains('trigger-enter')){
+        this.classList.add('trigger-enter-active');
+      }
+    }, 150);
+    background.classList.add('open');
+
+    //find the dropdown inside the element that was hovered over
+    const dropdown = this.querySelector('.dropdown');
+    //get the coordinates of the dropdown element
+    const dropdownCoords = dropdown.getBoundingClientRect();
+    //get nav coordinates
+    const navCoords = nav.getBoundingClientRect();
+
+    //find coordinates for everything
+    const coords = {
+      height: dropdownCoords.height,
+      width: dropdownCoords.width,
+      top: dropdownCoords.top - navCoords.top,
+      left: dropdownCoords.left - navCoords.left,
+    };
+
+    background.style.setProperty('width', `${coords.width}px`);
+    background.style.setProperty('height', `${coords.height}px`);
+    background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px)`);
+  }
+
+  //listen on hover out
+  function handleLeave() {
+    this.classList.remove('trigger-enter', 'trigger-enter-active');
+    background.classList.remove('open');
+  }
+
+  triggers.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter));
+  triggers.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave));
 </script>
 
 </body>

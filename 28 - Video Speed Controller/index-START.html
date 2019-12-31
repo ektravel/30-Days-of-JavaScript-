@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="wrapper">
     <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
     <div class="speed">
@@ -15,6 +14,29 @@
   </div>
 
 <script>
+  const speed = document.querySelector('.speed');
+  const bar = speed.querySelector('.speed-bar');
+  const video = document.querySelector('.flex');
+
+  function handleMove(e){
+    //'this' is the 'speed' element itself
+    //get the location on the speed element
+    const y = e.pageY - this.offsetTop;
+    //get the percentage of the location in relation to the height of the speed element
+    const percent = y / this.offsetHeight;
+    //set min and max values for the speed-bar
+    min = 0.4;
+    max = 4;
+    const height = Math.round(percent * 100) + '%';
+    const playbackRate = percent * (max - min) + min;
+    bar.style.height = height;
+    bar.textContent = playbackRate.toFixed(2) + 'x';
+    video.playbackRate = playbackRate;
+
+  }
+
+  speed.addEventListener('mousemove', handleMove);
+
 </script>
 </body>
 </html>
